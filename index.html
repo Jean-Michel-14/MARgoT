@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MARGo+ – Carnet de conduite accompagnée</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js" defer></script>
+<script src="js/app.js" defer></script>
+</head>
+<body>
+<header><div class="head">
+  <img id="logo" class="logo" src="IMG/logo.png" alt="Logo">
+  <div class="title"><b>MAR<span>Go+</span></b><small>Margot Apprivoise la Route</small></div>
+</div></header>
+<main>
+<div class="statusbar">
+  <button class="chip" id="syncChip" type="button">GitHub non configuré</button>
+  <button class="chip" id="openSettings" type="button">⚙ Synchronisation GitHub</button>
+</div>
+<form id="tripForm" novalidate>
+<input type="hidden" id="editId">
+<section class="card">
+<h1 id="formTitle">Enregistrer un trajet</h1>
+<div class="grid">
+<div class="field"><label for="date">Date du trajet</label><input type="date" id="date" required></div>
+<div class="field"><label for="preset">Trajet habituel (facultatif)</label>
+<select id="preset"><option value="">Choisir un trajet…</option><option value="lycee">Maison – Lycée</option><option value="saintjulien">Maison – Saint Julien les Rosiers</option><option value="couronne">Maison – La Couronne</option><option value="avignon">Maison – Avignon</option></select></div>
+<div class="field"><label for="departure">Départ</label><input id="departure" placeholder="Lieu de départ" required></div>
+<div class="field"><label for="arrival">Arrivée</label><input id="arrival" placeholder="Lieu d’arrivée" required></div>
+</div>
+</section>
+<section class="card">
+<h2>Distance et durée</h2>
+<div class="grid">
+<div class="field"><label for="distance">Distance parcourue à l’aller (km)</label><input type="number" inputmode="decimal" id="distance" min="0" step="0.1" placeholder="Ex. 4,5" required><div class="hint">Saisir la distance d’un seul trajet. Le retour est calculé avec la case ci-dessous.</div></div>
+<div class="field"><label for="duration">Durée de conduite (minutes)</label><input type="number" inputmode="numeric" id="duration" min="0" step="1" placeholder="Ex. 15"></div>
+<div class="field"><label class="choice"><input type="checkbox" id="roundTrip"> Aller-retour</label></div>
+<div class="field"><label for="counted">Distance totale comptabilisée (km)</label><input type="text" id="counted" readonly value="0 km" aria-live="polite"></div>
+</div>
+</section>
+<section class="card">
+<h2>Conditions de conduite</h2>
+<div class="grid">
+<div class="field"><span class="label">Moment de la journée</span><div class="checkline">
+<label class="choice"><input type="checkbox" name="moment" value="Jour"> Jour</label><label class="choice"><input type="checkbox" name="moment" value="Nuit"> Nuit</label></div></div>
+<div class="field"><span class="label">Météo</span><div class="checkline">
+<label class="choice"><input type="checkbox" name="meteo" value="Normale"> Normale</label><label class="choice"><input type="checkbox" name="meteo" value="Pluie"> Pluie</label><label class="choice"><input type="checkbox" name="meteo" value="Vent"> Vent</label><label class="choice"><input type="checkbox" name="meteo" value="Neige"> Neige</label><label class="choice"><input type="checkbox" name="meteo" value="Brouillard"> Brouillard</label></div></div>
+<div class="field full"><span class="label">Type de route</span><div class="checkline">
+<label class="choice"><input type="checkbox" name="route" value="Départementale"> Départementale</label><label class="choice"><input type="checkbox" name="route" value="Nationale"> Nationale</label><label class="choice"><input type="checkbox" name="route" value="Route pour automobile"> Route pour automobile</label><label class="choice"><input type="checkbox" name="route" value="Autoroute"> Autoroute</label><label class="choice"><input type="checkbox" name="route" value="Ville"> Ville</label><label class="choice"><input type="checkbox" name="route" value="Montagne"> Montagne</label></div></div>
+<div class="field"><span class="label">Trafic</span><div class="checkline">
+<label class="choice"><input type="checkbox" name="trafic" value="Faible"> Faible</label><label class="choice"><input type="checkbox" name="trafic" value="Moyen"> Moyen</label><label class="choice"><input type="checkbox" name="trafic" value="Important"> Important</label></div></div>
+<div class="field"><span class="label">Manœuvres réalisées</span><div class="checkline">
+<label class="choice"><input type="checkbox" name="manoeuvres" value="Marche arrière"> Marche arrière</label><label class="choice"><input type="checkbox" name="manoeuvres" value="Demi-tour"> Demi-tour</label><label class="choice"><input type="checkbox" name="manoeuvres" value="Démarrage en côte"> Démarrage en côte</label><label class="choice"><input type="checkbox" name="manoeuvres" value="Arrêt de précision"> Arrêt de précision</label><label class="choice"><input type="checkbox" name="manoeuvres" value="Créneau"> Créneau</label><label class="choice"><input type="checkbox" name="manoeuvres" value="Rangement en bataille"> Rangement en bataille</label><label class="choice"><input type="checkbox" name="manoeuvres" value="Rangement en épi"> Rangement en épi</label></div></div>
+<div class="field full"><label for="notes">Remarques</label><textarea id="notes" placeholder="Difficultés, progrès, points à retravailler…"></textarea></div>
+</div>
+<div class="actions"><button class="btn primary" type="submit" id="saveBtn">Enregistrer ce trajet</button><button class="btn secondary" type="button" id="resetBtn">Nouveau trajet</button></div>
+<p class="hint">Chaque trajet est gardé sur cet appareil puis envoyé sur GitHub (fichiers JSON et Excel du dossier <code>data</code>).</p>
+</section>
+</form>
+<section class="card hidden" id="history">
+<div class="triptop"><div><h2>Tous les trajets</h2><p class="hint" id="historyCount"></p></div><button class="btn secondary" id="closeHistory" type="button">Fermer</button></div>
+<div id="tripList"></div>
+<div class="actions"><button class="btn primary" id="downloadXlsx" type="button">Télécharger le tableau Excel</button><button class="btn secondary" id="downloadJson" type="button">Sauvegarde (.json)</button></div>
+</section>
+</main>
+<div class="sticky">
+<div class="total"><strong><span id="totalKm">0</span> / 3 000 km</strong><div class="progress"><span id="barSaved"></span><span id="barDraft"></span></div><small id="totalDetail"></small></div>
+<button class="btn primary" id="stickySave" type="button">Enregistrer</button>
+<div class="right"><button class="btn secondary" id="showHistory" type="button">Voir tous les trajets</button></div>
+</div>
+<dialog id="settings"><form method="dialog" id="cfgForm">
+<h2>Synchronisation GitHub</h2>
+<p class="hint">Dépôt de données conseillé : un dépôt <b>privé</b> séparé du site. Le jeton (Personal access token « fine-grained », permission <i>Contents : Read and write</i> sur ce seul dépôt) reste uniquement dans ce navigateur.</p>
+<div class="field"><label for="cfgRepo">Dépôt (propriétaire/nom)</label><input id="cfgRepo" placeholder="monpseudo/carnet-donnees"></div>
+<div class="field"><label for="cfgBranch">Branche</label><input id="cfgBranch" value="main"></div>
+<div class="field"><label for="cfgToken">Jeton d’accès</label><input id="cfgToken" type="password" autocomplete="off" placeholder="github_pat_…"></div>
+<div class="actions"><button class="btn primary" id="cfgSave" value="ok">Enregistrer et synchroniser</button><button class="btn secondary" value="cancel">Annuler</button></div>
+</form></dialog>
+<div id="toast" class="toast" role="status"></div>
+</body>
+</html>
