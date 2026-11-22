@@ -48,5 +48,33 @@
     ],
     "manoeuvres": [],
     "notes": ""
+  },
+  {
+    "id": "1795339149845-dxb4k9",
+    "date": "2026-11-22",
+    "departure": "Maison",
+    "arrival": "Ales",
+    "distance": 5,
+    "duration": 10,
+    "roundTrip": false,
+    "countedDistance": 5,
+    "moment": [
+      "Jour"
+    ],
+    "meteo": [
+      "Normale"
+    ],
+    "route": [
+      "Ville"
+    ],
+    "trafic": [
+      "Faible"
+    ],
+    "manoeuvres": [
+      "Marche arrière",
+      "Démarrage en côte",
+      "Rangement en bataille"
+    ],
+    "notes": "Reculer pour céder le passage"
   }
 ]
