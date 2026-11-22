@@ -1,0 +1,28 @@
+[
+  {
+    "id": "1795338992639-o7qi3i",
+    "date": "2026-11-22",
+    "departure": "Saint julien les rosiers",
+    "arrival": "Maison",
+    "distance": 7,
+    "duration": 15,
+    "roundTrip": false,
+    "countedDistance": 7,
+    "moment": [
+      "Jour"
+    ],
+    "meteo": [
+      "Normale"
+    ],
+    "route": [
+      "Ville"
+    ],
+    "trafic": [
+      "Faible"
+    ],
+    "manoeuvres": [
+      "Démarrage en côte"
+    ],
+    "notes": "Pas démarrer en troisième"
+  }
+]
