@@ -24,5 +24,29 @@
       "Démarrage en côte"
     ],
     "notes": "Pas démarrer en troisième"
+  },
+  {
+    "id": "1795339048562-s1lloq",
+    "date": "2026-11-22",
+    "departure": "Maison",
+    "arrival": "Bagnols",
+    "distance": 41,
+    "duration": 38,
+    "roundTrip": false,
+    "countedDistance": 41,
+    "moment": [
+      "Jour"
+    ],
+    "meteo": [
+      "Normale"
+    ],
+    "route": [
+      "Nationale"
+    ],
+    "trafic": [
+      "Faible"
+    ],
+    "manoeuvres": [],
+    "notes": ""
   }
 ]
